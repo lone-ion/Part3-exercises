@@ -7,32 +7,37 @@ if (process.argv.length<3) {
 
 const password = process.argv[2]
 
-const url = `mongodb+srv://fullstack:${password}@cluster0.cqs0kus.mongodb.net/notesApp?retryWrites=true&w=majority`
+const url = `mongodb+srv://fullstack:${password}@cluster0.cqs0kus.mongodb.net/phonebook?retryWrites=true&w=majority`
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url).then(() => console.log('connected'))
   .catch(e => console.log(e));
 
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
+const recordSchema = new mongoose.Schema({
+  name: String,
+  number: String,
 })
 
-const Note = mongoose.model('Note', noteSchema)
+const Record = mongoose.model('Record', recordSchema)
 
-const note = new Note({
-  content: 'HTML is Easy',
-  important: true,
-})
-
-// note.save().then(result => {
-//   console.log('note saved!')
-//   mongoose.connection.close()
-// })
-
-Note.find({}).then(result => {
-  result.forEach(note => {
-    console.log(note)
+if (process.argv.length === 3) {
+  Record.find({}).then(result => {
+    result.forEach(record => {
+      console.log(record)
+    })
+    mongoose.connection.close()
   })
-  mongoose.connection.close()
-})
+}
+
+if (process.argv.length === 5) {
+  const record = new Record({
+    name: process.argv[3],
+    number: process.argv[4],
+  })
+
+  record.save().then(result => {
+    console.log('record saved!')
+    mongoose.connection.close()
+  })
+
+}
