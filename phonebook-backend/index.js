@@ -70,39 +70,43 @@ app.delete('/api/persons/:id', (request, response) => {
    response.status(204).end()
 })
 
-const generateId = () => {
-   const newId = Math.floor(Math.random() * 1000000000)
-   return newId
-}
+// const generateId = () => {
+//    const newId = Math.floor(Math.random() * 1000000000)
+//    return newId
+// }
 
 app.post('/api/persons', (request, response) => {
    const person = request.body
    
-   if (!person.name) {
-      return response.status(400).json({
-         error: 'name is missing'
-      })
-   }
+   // if (!person.name) {
+   //    return response.status(400).json({
+   //       error: 'name is missing'
+   //    })
+   // }
 
-   if (!person.number) {
-      return response.status(400).json({
-         error: 'number is missing'
-      })
-   }
+   // if (!person.number) {
+   //    return response.status(400).json({
+   //       error: 'number is missing'
+   //    })
+   // }
 
-   const exists = persons.filter(elem => elem.name === person.name)
+   // const exists = persons.filter(elem => elem.name === person.name)
    
-   if ( exists.length > 0 ) {
-      return response.status(400).json({
-         error: 'name must be unique'
-      })
-   }
+   // if ( exists.length > 0 ) {
+   //    return response.status(400).json({
+   //       error: 'name must be unique'
+   //    })
+   // }
 
-   person.id = generateId()
+   const record = new Record({
+      name: person.name,
+      number: person.number,
+   })
 
-   persons = persons.concat(person)
+   record.save().then(() => {
+      console.log('record saved!')
+   })
 
-   response.json(person)
 })
 
 const PORT = process.env.PORT;
