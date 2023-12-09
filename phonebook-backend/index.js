@@ -64,39 +64,15 @@ app.get('/api/persons/:id', (request, response) => {
 });
 
 app.delete('/api/persons/:id', (request, response) => {
-   const id = Number(request.params.id)
-   persons = persons.filter(person => person.id !== id)
-
-   response.status(204).end()
-})
-
-// const generateId = () => {
-//    const newId = Math.floor(Math.random() * 1000000000)
-//    return newId
-// }
+   Record.findByIdAndDelete(request.params.id)
+      .then(result => {
+         response.status(204).end()
+      })
+      .catch(error => next(error))
+   })
 
 app.post('/api/persons', (request, response) => {
    const person = request.body
-   
-   // if (!person.name) {
-   //    return response.status(400).json({
-   //       error: 'name is missing'
-   //    })
-   // }
-
-   // if (!person.number) {
-   //    return response.status(400).json({
-   //       error: 'number is missing'
-   //    })
-   // }
-
-   // const exists = persons.filter(elem => elem.name === person.name)
-   
-   // if ( exists.length > 0 ) {
-   //    return response.status(400).json({
-   //       error: 'name must be unique'
-   //    })
-   // }
 
    const record = new Record({
       name: person.name,
