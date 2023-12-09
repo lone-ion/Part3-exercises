@@ -43,10 +43,27 @@ app.post('/api/persons', (request, response) => {
       number: person.number,
    })
 
-   record.save().then(() => {
+   record.save().then((newRecord) => {
       console.log('record saved!')
+      // maybe this has to be changed
+      response.json(newRecord)
    })
 
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+   const person = request.body
+
+   const record = {
+      name: person.name,
+      number: person.number,
+   }
+
+   Record.findByIdAndUpdate(request.params.id, record, { new: true })
+      .then(updatedRecord => {
+         response.json(updatedRecord)
+      })
+      .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
