@@ -10,7 +10,10 @@ mongoose.connect(url).then(() => console.log('connected to MongoDB'))
    .catch(e => console.log(e.message));
 
 const recordSchema = new mongoose.Schema({
-   name: String,
+   name: {
+      type: String,
+      minLength: 3
+   },
    number: String,
 })
 
