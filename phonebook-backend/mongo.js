@@ -11,7 +11,7 @@ const url = `mongodb+srv://fullstack:${password}@cluster0.cqs0kus.mongodb.net/ph
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url).then(() => console.log('connected'))
-  .catch(e => console.log(e));
+  .catch(e => console.log(e))
 
 const recordSchema = new mongoose.Schema({
   name: String,
@@ -35,7 +35,7 @@ if (process.argv.length === 5) {
     number: process.argv[4],
   })
 
-  record.save().then(result => {
+  record.save().then(() => {
     console.log('record saved!')
     mongoose.connection.close()
   })
